@@ -54,9 +54,13 @@ struct RegisterView: View {
                 Spacer()
             }
             .navigationTitle("Registro")
-            .navigationBarItems(leading: Button("Cancelar") {
-                presentationMode.wrappedValue.dismiss()
-            })
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Cancelar") {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                }
+            }
             .alert(isPresented: $showAlert) {
                 Alert(title: Text("Aviso"), message: Text(alertMessage), dismissButton: .default(Text("OK")) {
                     if alertMessage.contains("exitosamente") {

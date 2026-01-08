@@ -56,7 +56,7 @@ struct LoginView: View {
                 Spacer()
             }
             .padding()
-            .navigationBarHidden(true)
+            .toolbar(.hidden, for: .navigationBar)
             .sheet(isPresented: $showingRegister) {
                 RegisterView()
                     .environmentObject(authService)
