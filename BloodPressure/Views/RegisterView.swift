@@ -2,7 +2,7 @@ import SwiftUI
 
 struct RegisterView: View {
     @EnvironmentObject var authService: AuthenticationService
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
     @State private var username = ""
     @State private var password = ""
     @State private var confirmPassword = ""
@@ -57,14 +57,14 @@ struct RegisterView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Cancelar") {
-                        presentationMode.wrappedValue.dismiss()
+                        dismiss()
                     }
                 }
             }
             .alert(isPresented: $showAlert) {
                 Alert(title: Text("Aviso"), message: Text(alertMessage), dismissButton: .default(Text("OK")) {
                     if alertMessage.contains("exitosamente") {
-                        presentationMode.wrappedValue.dismiss()
+                        dismiss()
                     }
                 })
             }
