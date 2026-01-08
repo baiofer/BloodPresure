@@ -8,12 +8,12 @@ class ReadingViewModel: ObservableObject {
     
     // Validation constants for blood pressure readings
     private enum ValidationLimits {
-        static let systolicMin = 0
-        static let systolicMax = 300
-        static let diastolicMin = 0
-        static let diastolicMax = 200
-        static let pulseMin = 0
-        static let pulseMax = 250
+        static let systolicMin = 40      // Minimum viable systolic pressure
+        static let systolicMax = 300     // Maximum measurement range
+        static let diastolicMin = 30     // Minimum viable diastolic pressure
+        static let diastolicMax = 200    // Maximum measurement range
+        static let pulseMin = 20         // Minimum viable pulse
+        static let pulseMax = 250        // Maximum measurement range
     }
     
     func calculateAverage() -> (systolic: Int, diastolic: Int, pulse: Int)? {
@@ -23,9 +23,9 @@ class ReadingViewModel: ObservableObject {
             guard let systolic = Int(reading.systolic),
                   let diastolic = Int(reading.diastolic),
                   let pulse = Int(reading.pulse),
-                  systolic > ValidationLimits.systolicMin && systolic < ValidationLimits.systolicMax,
-                  diastolic > ValidationLimits.diastolicMin && diastolic < ValidationLimits.diastolicMax,
-                  pulse > ValidationLimits.pulseMin && pulse < ValidationLimits.pulseMax else {
+                  systolic >= ValidationLimits.systolicMin && systolic <= ValidationLimits.systolicMax,
+                  diastolic >= ValidationLimits.diastolicMin && diastolic <= ValidationLimits.diastolicMax,
+                  pulse >= ValidationLimits.pulseMin && pulse <= ValidationLimits.pulseMax else {
                 continue
             }
             validReadings.append((systolic, diastolic, pulse))
