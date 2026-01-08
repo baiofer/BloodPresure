@@ -20,7 +20,9 @@ class AuthenticationService: ObservableObject {
             return false
         }
         
-        let newUser = User(username: username, password: password)
+        // Hash the password before storing
+        let passwordHash = PasswordSecurity.hashPassword(password)
+        let newUser = User(username: username, passwordHash: passwordHash)
         users.append(newUser)
         saveUsers(users)
         
@@ -30,7 +32,9 @@ class AuthenticationService: ObservableObject {
     func login(username: String, password: String) -> Bool {
         let users = loadUsers()
         
-        if let user = users.first(where: { $0.username == username && $0.password == password }) {
+        // Hash the entered password and compare with stored hash
+        let passwordHash = PasswordSecurity.hashPassword(password)
+        if let user = users.first(where: { $0.username == username && $0.passwordHash == passwordHash }) {
             currentUser = user
             saveCurrentUser(user)
             isAuthenticated = true

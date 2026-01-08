@@ -88,10 +88,21 @@ struct ReadingInputView: View {
         dataService.saveReading(reading)
         
         alertTitle = "Éxito"
-        alertMessage = "Lectura guardada exitosamente\n\nMedia:\nSistólica: \(average.systolic) mmHg\nDiastólica: \(average.diastolic) mmHg\nPulso: \(average.pulse) lpm"
+        alertMessage = formatSuccessMessage(average: average)
         showAlert = true
         
         viewModel.resetReadings()
+    }
+    
+    private func formatSuccessMessage(average: (systolic: Int, diastolic: Int, pulse: Int)) -> String {
+        return """
+        Lectura guardada exitosamente
+        
+        Media:
+        Sistólica: \(average.systolic) mmHg
+        Diastólica: \(average.diastolic) mmHg
+        Pulso: \(average.pulse) lpm
+        """
     }
 }
 

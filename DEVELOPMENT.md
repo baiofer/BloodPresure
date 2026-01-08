@@ -102,6 +102,30 @@ Los datos se almacenan localmente usando `UserDefaults`:
 - Valores numéricos válidos
 - Rangos apropiados para cada parámetro
 
+## Seguridad
+
+### Manejo de Contraseñas
+- Las contraseñas se almacenan como hash SHA256, no en texto plano
+- Implementado en `PasswordSecurity.swift` usando CryptoKit
+- **Recomendación para Producción**: Migrar a Keychain Services de iOS para mayor seguridad
+  - Keychain proporciona almacenamiento cifrado a nivel de hardware
+  - Protección contra ataques de fuerza bruta
+  - Integración con Face ID/Touch ID
+
+### Mejora de Seguridad Sugerida
+```swift
+// Usar Keychain en lugar de UserDefaults para contraseñas
+import Security
+
+// Ejemplo de uso de Keychain
+let query: [String: Any] = [
+    kSecClass as String: kSecClassGenericPassword,
+    kSecAttrAccount as String: username,
+    kSecValueData as String: passwordData
+]
+SecItemAdd(query as CFDictionary, nil)
+```
+
 ## Mejoras Futuras Posibles
 
 1. **Gráficos**: Añadir gráficos de tendencia temporal
@@ -114,6 +138,7 @@ Los datos se almacenan localmente usando `UserDefaults`:
 8. **Notas**: Añadir notas a cada lectura
 9. **Multiple Profiles**: Soporte para múltiples perfiles de usuario
 10. **Dark Mode**: Optimización para modo oscuro
+11. **Keychain Integration**: Migrar almacenamiento de contraseñas a Keychain
 
 ## Cómo Extender la Aplicación
 
