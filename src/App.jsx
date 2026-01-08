@@ -17,19 +17,19 @@ function App() {
   }, [])
 
   const classifyBloodPressure = (sys, dia) => {
-    sys = parseInt(sys)
-    dia = parseInt(dia)
+    sys = parseInt(sys, 10)
+    dia = parseInt(dia, 10)
 
-    if (sys < 120 && dia < 80) {
-      return { level: 'Normal', color: '#10b981', description: 'Presión arterial normal' }
-    } else if (sys >= 120 && sys <= 129 && dia < 80) {
-      return { level: 'Elevada', color: '#f59e0b', description: 'Presión arterial elevada' }
-    } else if ((sys >= 130 && sys <= 139) || (dia >= 80 && dia <= 89)) {
-      return { level: 'Hipertensión Etapa 1', color: '#f97316', description: 'Consulte a su médico' }
+    if (sys > 180 || dia > 120) {
+      return { level: 'Crisis Hipertensiva', color: '#991b1b', description: '¡Busque atención médica de emergencia!' }
     } else if (sys >= 140 || dia >= 90) {
       return { level: 'Hipertensión Etapa 2', color: '#ef4444', description: 'Consulte a su médico urgentemente' }
-    } else if (sys > 180 || dia > 120) {
-      return { level: 'Crisis Hipertensiva', color: '#991b1b', description: '¡Busque atención médica de emergencia!' }
+    } else if ((sys >= 130 && sys <= 139) || (dia >= 80 && dia <= 89)) {
+      return { level: 'Hipertensión Etapa 1', color: '#f97316', description: 'Consulte a su médico' }
+    } else if (sys >= 120 && sys <= 129 && dia < 80) {
+      return { level: 'Elevada', color: '#f59e0b', description: 'Presión arterial elevada' }
+    } else if (sys < 120 && dia < 80) {
+      return { level: 'Normal', color: '#10b981', description: 'Presión arterial normal' }
     }
     return null
   }
@@ -43,10 +43,10 @@ function App() {
     }
 
     const newReading = {
-      id: Date.now(),
-      systolic: parseInt(systolic),
-      diastolic: parseInt(diastolic),
-      pulse: pulse ? parseInt(pulse) : null,
+      id: crypto.randomUUID(),
+      systolic: parseInt(systolic, 10),
+      diastolic: parseInt(diastolic, 10),
+      pulse: pulse ? parseInt(pulse, 10) : null,
       date: new Date().toLocaleString('es-ES'),
       classification: classifyBloodPressure(systolic, diastolic)
     }
